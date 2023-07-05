@@ -39,6 +39,7 @@ wsServer.on("connection", (socket) => {
     })
     socket.on("enter_room", (roomName, done) => {
         socket.join(roomName); 
+        socket.room = roomName;
         done();
         socket.to(roomName).emit("welcome", socket.nickname, countRoom(roomName)); //메세지를 하나의 socket에만 보냄
         wsServer.sockets.emit("room_change", publicRooms()); //메세지를 모든 socket에 보냄
@@ -56,7 +57,7 @@ wsServer.on("connection", (socket) => {
     })
     socket.on("draw", (data) => {
         // 그림 그리기 데이터를 다른 클라이언트에게 브로드캐스팅
-        socket.to(roomName).emit("drawing", data);
+        socket.to(socket.room).emit("drawing", data);
     });
     socket.on("nickname", (nickname) => (socket["nickname"] = nickname));
     //nickname event가 발생하면 nickname을 가져와서 socket에 저장
