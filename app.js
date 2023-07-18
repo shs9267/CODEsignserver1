@@ -47,6 +47,12 @@ socket.on("drawing", (data) => {
     context.moveTo(startX, startY);
     context.lineTo(endX, endY);
     context.stroke();
+    
+    // 좌표 표시
+    context.fillStyle = "black";
+    context.fillRect(startX, startY, 2, 2);
+    context.fillRect(endX, endY, 2, 2);
+    console.log(data);
   });
 
 function addMessage(message){
